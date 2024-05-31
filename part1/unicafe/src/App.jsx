@@ -1,5 +1,40 @@
 import { useState } from "react";
 
+const StatsticsLine = ({ text, value }) => {
+  return (
+    <tr>
+      <td>{text}:</td>
+      <td>{value}</td>
+    </tr>
+  );
+};
+
+const Statstics = ({ good, neutral, bad, all, avrege, positive }) => {
+  if (all == 0) {
+    return (
+      <div>
+        <h3>No feeedback given</h3>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>statistics</h1>
+      <table>
+        <tbody>
+          <StatsticsLine text="good" value={good} />
+          <StatsticsLine text="nautral" value={neutral} />
+          <StatsticsLine text="bad" value={bad} />
+          <StatsticsLine text="all" value={all} />
+          <StatsticsLine text="avrege" value={avrege} />
+          <StatsticsLine text="positive" value={positive} />
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -47,13 +82,14 @@ const App = () => {
       <button onClick={incrementGood}>good</button>
       <button onClick={incrementNeutral}>neutral</button>
       <button onClick={incrementBad}>bad</button>
-      <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>nautral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>avrege {avrege}</p>
-      <p>positive {positive}%</p>
+      <Statstics
+        good={good}
+        bad={bad}
+        all={all}
+        neutral={neutral}
+        avrege={avrege}
+        positive={positive}
+      />
     </div>
   );
 };
