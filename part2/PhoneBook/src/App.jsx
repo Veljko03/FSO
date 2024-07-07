@@ -27,9 +27,9 @@ const App = () => {
     event.preventDefault();
 
     const filteredArr = persons.map((person) => person.name);
-    console.log(filteredArr);
+
     const check = filteredArr.includes(newName);
-    console.log(check);
+
     if (!check) {
       const obj = {
         name: newName,
@@ -42,7 +42,21 @@ const App = () => {
         setNewNumber("");
       });
     } else {
-      alert(newName + " is already added to phonebook");
+      if (
+        window.confirm(
+          `${newName} allredy added to phonebook, replace old number with new one?`
+        )
+      ) {
+        const filtered = persons.filter((x) => x.name == newName);
+        const changedObj = { ...filtered[0], number: newNumber };
+        const id = filtered[0].id;
+        phoneServices.change(id, changedObj).then((returnedPerson) => {
+          setPersons(
+            persons.map((n) => (n.id !== id ? n : returnedPerson.data))
+          );
+        });
+      }
+
       setNewName("");
       setNewNumber("");
     }
@@ -50,8 +64,8 @@ const App = () => {
 
   const personDelate = (id) => {
     if (window.confirm("Do you really want to delete this number?")) {
-      axios
-        .delete(`http://localhost:3001/persons/${id}`)
+      phoneServices
+        .delatePhoneNum(id)
         .then(() => setPersons(persons.filter((p) => p.id !== id)));
     }
   };

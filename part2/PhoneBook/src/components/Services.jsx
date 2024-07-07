@@ -10,4 +10,8 @@ const delatePhoneNum = (id) => {
   return axios.delete(`${baseURL}/${id}`);
 };
 
-export default { create, delatePhoneNum };
+const change = (id, newObject) => {
+  return axios.put(`${baseURL}/${id}`, newObject);
+};
+
+export default { create, delatePhoneNum, change };
