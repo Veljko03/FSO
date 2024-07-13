@@ -4,12 +4,27 @@ import PersonForms from "./components/PersonForm";
 import PersonsToShow from "./components/ShowPersons";
 import axios from "axios";
 import phoneServices from "./components/Services";
+import "./index.css";
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+  return <div className="notification">{message}</div>;
+};
+const Error = ({ message }) => {
+  if (message == "") {
+    return null;
+  }
+  return <div className="err">{message}</div>;
+};
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [showAll, setShowAll] = useState("");
+  const [notification, setNotification] = useState(null);
+  const [err, setErr] = useState("");
 
   const promise = axios.get("http://localhost:3001/persons");
   console.log(promise);
@@ -36,6 +51,11 @@ const App = () => {
 
         number: newNumber,
       };
+
+      setNotification(`${newName} is added in phoneBook`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 2000);
       phoneServices.create(obj).then((response) => {
         setPersons(persons.concat(response.data));
         setNewName("");
@@ -50,11 +70,19 @@ const App = () => {
         const filtered = persons.filter((x) => x.name == newName);
         const changedObj = { ...filtered[0], number: newNumber };
         const id = filtered[0].id;
-        phoneServices.change(id, changedObj).then((returnedPerson) => {
-          setPersons(
-            persons.map((n) => (n.id !== id ? n : returnedPerson.data))
-          );
-        });
+        console.log(id);
+        phoneServices
+          .change(id, changedObj)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((n) => (n.id !== id ? n : returnedPerson.data))
+            );
+          })
+          .catch((err) => {
+            setErr(
+              `Information of ${newName} has been already been removed from server`
+            );
+          });
       }
 
       setNewName("");
@@ -92,7 +120,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={notification} />
+      <Error message={err} />
       <Filter showAll={showAll} handleShowChange={handleShowChange} />
 
       <PersonForms
