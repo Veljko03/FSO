@@ -17,7 +17,8 @@ const OneCountry = ({ languages }) => {
 };
 
 const ShowCountry = ({ countries, showBtn }) => {
-  const key = "408692695547b7cd1be9065d4dad0c79";
+  const key = import.meta.env.VITE_SOME_KEY;
+
   const apiCall =
     "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}";
 
