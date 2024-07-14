@@ -78,7 +78,7 @@ const App = () => {
               persons.map((n) => (n.id !== id ? n : returnedPerson.data))
             );
           })
-          .catch((err) => {
+          .catch(() => {
             setErr(
               `Information of ${newName} has been already been removed from server`
             );
@@ -122,6 +122,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Notification message={notification} />
       <Error message={err} />
+
       <Filter showAll={showAll} handleShowChange={handleShowChange} />
 
       <PersonForms
