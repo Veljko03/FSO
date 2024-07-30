@@ -26,11 +26,11 @@ const App = () => {
   const [notification, setNotification] = useState(null);
   const [err, setErr] = useState("");
 
-  const promise = axios.get("http://localhost:3001/persons");
+  const promise = axios.get("http://localhost:3001/api/persons");
   console.log(promise);
   const hook = () => {
     console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get("http://localhost:3001/api/persons").then((response) => {
       console.log("response fulfiled");
       setPersons(response.data);
     });
