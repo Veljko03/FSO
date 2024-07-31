@@ -27,7 +27,7 @@ const App = () => {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    personService.getAll().then((res) => setPersons(res.data));
+    phoneServices.getAll().then((res) => setPersons(res.data));
   }, []);
 
   const addNote = (event) => {
