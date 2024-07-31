@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "/api/persons";
+const baseURL = "/api/persons";
 
 const create = (newObject) => {
   return axios.post(baseURL, newObject);
@@ -14,4 +14,8 @@ const change = (id, newObject) => {
   return axios.put(`${baseURL}/${id}`, newObject);
 };
 
-export default { create, delatePhoneNum, change };
+const getAll = () => {
+  return axios.get(baseURL);
+};
+
+export default { create, delatePhoneNum, change, getAll };

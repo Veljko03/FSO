@@ -26,17 +26,9 @@ const App = () => {
   const [notification, setNotification] = useState(null);
   const [err, setErr] = useState("");
 
-  const promise = axios.get("http://localhost:3001/api/persons");
-  console.log(promise);
-  const hook = () => {
-    console.log("effect");
-    axios.get("http://localhost:3001/api/persons").then((response) => {
-      console.log("response fulfiled");
-      setPersons(response.data);
-    });
-  };
-
-  useEffect(hook, []);
+  useEffect(() => {
+    personService.getAll().then((res) => setPersons(res.data));
+  }, []);
 
   const addNote = (event) => {
     event.preventDefault();
